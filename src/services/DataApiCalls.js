@@ -1,12 +1,20 @@
 import axios from "axios";
 // axios.defaults.baseURL = "https://asad-crud-api.herokuapp.com/api/expense/";
 // axios.defaults.baseURL = "http://localhost:4000/products/";
-const baseURL = "http://localhost:4000/products/";
+//above method is global - if we do same for other url, it will be overridden
+//so i used the custom url then concated it with rmaining url
+// const baseURL = "http://localhost:4000/products/";
+//Now make axios instance instead of custom variable url
+
+const productsBase = axios.create({
+  baseURL: "http://localhost:4000/products/",
+});
+
 class DataApiCalls {
   get = (url) =>
     new Promise((resolve, reject) => {
-      axios
-        .get(baseURL + url)
+      productsBase
+        .get(url)
         .then((res) => {
           console.log(res);
           resolve(res.data);
@@ -17,8 +25,8 @@ class DataApiCalls {
     });
   post = (url, data) =>
     new Promise((resolve, reject) => {
-      axios
-        .post(baseURL + url, data)
+      productsBase
+        .post(url, data)
         .then((res) => {
           resolve(res.data);
         })
@@ -28,8 +36,8 @@ class DataApiCalls {
     });
   delete = (url) =>
     new Promise((resolve, reject) => {
-      axios
-        .delete(baseURL + url)
+      productsBase
+        .delete(url)
         .then((res) => {
           resolve(res.data);
         })
@@ -39,8 +47,8 @@ class DataApiCalls {
     });
   put = (url, data) =>
     new Promise((resolve, reject) => {
-      axios
-        .put(baseURL + url, data)
+      productsBase
+        .put(url, data)
         .then((res) => {
           resolve(res.data);
         })
